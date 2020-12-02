@@ -66,7 +66,7 @@ namespace Day01
                     {
                         break;
                     }
-                    for (int k = 0; k < input.Count; k++)
+                    for (int k = j; k < input.Count; k++)
                     {
                         sum = input[i] + input[j] + input[k];
                         if (sum == 2020)
