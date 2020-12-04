@@ -35,7 +35,7 @@ namespace Day04
                 {
                     bool[] fields = new bool[keys.Count];
 
-                label:
+                label1:
                     string[] tokens = line.Split();
 
                     foreach (string s in tokens)
@@ -47,7 +47,7 @@ namespace Day04
                     if (sr.Peek() != '\n')
                     {
                         if ((line = sr.ReadLine()) != null)
-                            goto label;
+                            goto label1;
                     }
 
                     int sum = 0;
@@ -67,7 +67,7 @@ namespace Day04
         static void Part2()
         {
 
-            string filename = "../../../../test.txt";
+            string filename = "../../../../input.txt";
             StreamReader sr = new StreamReader(filename);
 
             List<string> keys = new List<string>();
@@ -128,8 +128,8 @@ namespace Day04
                                 {
                                     int height = Convert.ToInt32(kvp[1].Substring(0, kvp[1].Length - 2));
                                     string dim = kvp[1].Substring(kvp[1].Length - 2);
-                                    if (dim == "cm" && height >= 150 && height <= 193 ||
-                                        dim == "in" && height >= 59 && height <= 76)
+                                    if ((dim == "cm" && height >= 150 && height <= 193) ||
+                                        (dim == "in" && height >= 59 && height <= 76))
                                     {
                                         fields[index] = true;
                                     }
