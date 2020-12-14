@@ -58,11 +58,19 @@ namespace Day13
             foreach (string s in tokens)
             {
                 if (s != "x")
-                    busses.Add((int)offset, int.Parse(s));
+                {
+                    var id = int.Parse(s);
+                    busses.Add((int)offset % id, id);
+                }
 
                 offset++;
             }
 
+            long largest = 1;
+            foreach (KeyValuePair<int, int> kvp in busses)
+            {
+                largest *= kvp.Value;
+            }
             long multiple = 1;
             long jump = 1;
             offset = 0;
@@ -73,7 +81,7 @@ namespace Day13
             {
                 found = false;
                 multiple = 1;
-                while (!found)
+                while (!found && time < largest)
                 {
                     time = jump * multiple + offset;
                     if ((kvp.Value - (time % kvp.Value)) % kvp.Value == kvp.Key)
@@ -86,6 +94,11 @@ namespace Day13
                     {
                         multiple++;
                     }
+                }
+                if (time >= largest)
+                {
+                    Console.WriteLine("Missed time");
+                    break;
                 }
             }
 
