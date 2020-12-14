@@ -54,32 +54,55 @@ namespace Day13
             line = sr.ReadLine();
             Dictionary<int, int> busses = new Dictionary<int, int>();
             var tokens = line.Split(',');
-            int offset = 0;
+            long offset = 0;
             foreach (string s in tokens)
             {
                 if (s != "x")
-                    busses.Add(offset, int.Parse(s));
+                    busses.Add((int)offset, int.Parse(s));
 
                 offset++;
             }
 
             long multiple = 1;
+            long jump = 1;
+            offset = 0;
             bool found = false;
             long time = 0;
-            while (!found)
+
+            foreach (KeyValuePair<int, int> kvp in busses)
             {
-                time = busses[0] * multiple;
-                found = true;
-                foreach (KeyValuePair<int, int> kvp in busses)
+                found = false;
+                multiple = 1;
+                while (!found)
                 {
-                    if ((kvp.Value - (time % kvp.Value)) % kvp.Value != kvp.Key)
+                    time = jump * multiple + offset;
+                    if ((kvp.Value - (time % kvp.Value)) % kvp.Value == kvp.Key)
                     {
-                        found = false;
-                        break;
+                        found = true;
+                        offset = time;
+                        jump = jump * kvp.Value;
+                    }
+                    else
+                    {
+                        multiple++;
                     }
                 }
-                multiple++;
             }
+
+            //while (!found)
+            //{
+            //    time = busses[0] * multiple;
+            //    found = true;
+            //    foreach (KeyValuePair<int, int> kvp in busses)
+            //    {
+            //        if ((kvp.Value - (time % kvp.Value)) % kvp.Value != kvp.Key)
+            //        {
+            //            found = false;
+            //            break;
+            //        }
+            //    }
+            //    multiple++;
+            //}
 
             Console.WriteLine(time);
         }
