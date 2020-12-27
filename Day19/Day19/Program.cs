@@ -18,7 +18,7 @@ namespace Day19
             string filename = "../../../../input.txt";
             StreamReader sr = new StreamReader(filename);
 
-            Dictionary<int, List<string>> rules = new Dictionary<int, List<string>>();
+            Dictionary<int, string> input = new Dictionary<int, string>();
 
             string line;
             bool donerules = false;
@@ -28,50 +28,36 @@ namespace Day19
                 if (line.Contains(':'))
                 {
                     tokens = line.Split(':');
-                    rules.Add(int.Parse(tokens[0]), new List<string>());
-                    rules[int.Parse(tokens[0])].Add(tokens[1].Trim());
+                    input.Add(int.Parse(tokens[0]), "");
+                    input[int.Parse(tokens[0])] += tokens[1].Trim();
                 }
                 else
                 {
                     if (!donerules)
                     {
                         donerules = true;
-                        for (int i = rules.Count - 1; i >= 0; i--)
-                        {
-                            if (rules[i][0].Contains('"'))
-                            {
-                                string letters = rules[i][0].Substring(1, 1);
-                                rules[i].Add(letters);
-                            }
-                            else
-                            {
-                                int index = 1;
-                                rules[i].Add("");
-                                for (int j = 0; j < rules[i].Count; j++)
-                                {
-                                    tokens = rules[i][0].Split();
-
-                                    foreach(string s in tokens)
-                                    {
-                                        if (s == "|")
-                                        {
-                                            index++;
-                                            rules[i].Add("");
-                                        }
-                                        else
-                                        {
-                                            int num = int.Parse(tokens[j]);
-                                            for (int k = 0; k < rules[num].Count; k++)
-                                            {
-
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                        List<string> rule0 = BuildRules(new List<string>(), input, 0, 0, 0);
                     }
                 }
+            }
+        }
+
+        static List<string> BuildRules(List<string> rules, Dictionary<int, string> input, int rule, int low, int high)
+        {
+            if (input[rule].Contains('"'))
+            {
+                for (int i = low; i < high; i++)
+                {
+                    rules[i] = input[rule][1].ToString();
+                }
+                return rules;
+            }
+            else
+            {
+
+            }
+
+            return rules;
         }
     }
 }
