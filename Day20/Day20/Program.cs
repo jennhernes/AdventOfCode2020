@@ -485,6 +485,11 @@ namespace Day20
                         imagePieces[nextId] = Rotate(imagePieces[nextId], 270);
                         imagePieces[nextId] = Flip(imagePieces[nextId], "y");
                     }
+
+                    if (tiles[nextId][0].matchingID < 0)
+                    {
+                        Console.WriteLine(nextId + " DOES NOT MATCH ABOVE TILE");
+                    }
                 }
                 Console.WriteLine();
 
@@ -655,9 +660,19 @@ namespace Day20
                 }
             }
 
-            int numSeaMonsters = 0;
-            int maxNumSM = 0;
+            foreach (List<char> lc in completeImage)
+            {
+                foreach (char c in lc)
+                {
+                    Console.Write(c);
+                }
+                Console.WriteLine();
+            }
+
             int numHash = 0;
+            int maxNumSM = -10;
+            int numSeaMonsters = 0;
+            // left to right
             for (int j = 0; j < completeImage.Count; j++)
             {
                 for (int i = 0; i < completeImage[0].Count; i++)
@@ -681,15 +696,414 @@ namespace Day20
             }
             maxNumSM = Math.Max(maxNumSM, numSeaMonsters);
 
-            numSeaMonsters = 0; // flip x
+            #region comments
+            //numSeaMonsters = 0;
+            //completeImage = Flip(completeImage, "x");
+            //for (int j = 0; j < completeImage.Count; j++)
+            //{
+            //    for (int i = 0; i < completeImage[0].Count; i++)
+            //    {
+            //        if (completeImage[i][j] == '#')
+            //        {
+            //            if (i < completeImage[0].Count - 20 && j > 1 && j < completeImage.Count - 2 &&
+            //                completeImage[j + 1][i + 1] == '#' && completeImage[j + 1][i + 4] == '#' &&
+            //                completeImage[j][i + 5] == '#' && completeImage[j][i + 6] == '#' &&
+            //                completeImage[j + 1][i + 7] == '#' && completeImage[j + 1][i + 10] == '#' &&
+            //                completeImage[j][i + 11] == '#' && completeImage[j][i + 12] == '#' &&
+            //                completeImage[j + 1][i + 13] == '#' && completeImage[j + 1][i + 16] == '#' &&
+            //                completeImage[j][i + 17] == '#' && completeImage[j - 1][i + 18] == '#' &&
+            //                completeImage[j][i + 18] == '#' && completeImage[j][i + 19] == '#')
+            //            {
+            //                numSeaMonsters++;
+            //            }
+            //        }
+            //    }
+            //}
+            //maxNumSM = Math.Max(maxNumSM, numSeaMonsters);
 
+            //numSeaMonsters = 0;
+            //completeImage = Flip(completeImage, "y");
+            //for (int j = 0; j < completeImage.Count; j++)
+            //{
+            //    for (int i = 0; i < completeImage[0].Count; i++)
+            //    {
+            //        if (completeImage[i][j] == '#')
+            //        {
+            //            if (i < completeImage[0].Count - 20 && j > 1 && j < completeImage.Count - 2 &&
+            //                completeImage[j + 1][i + 1] == '#' && completeImage[j + 1][i + 4] == '#' &&
+            //                completeImage[j][i + 5] == '#' && completeImage[j][i + 6] == '#' &&
+            //                completeImage[j + 1][i + 7] == '#' && completeImage[j + 1][i + 10] == '#' &&
+            //                completeImage[j][i + 11] == '#' && completeImage[j][i + 12] == '#' &&
+            //                completeImage[j + 1][i + 13] == '#' && completeImage[j + 1][i + 16] == '#' &&
+            //                completeImage[j][i + 17] == '#' && completeImage[j - 1][i + 18] == '#' &&
+            //                completeImage[j][i + 18] == '#' && completeImage[j][i + 19] == '#')
+            //            {
+            //                numSeaMonsters++;
+            //            }
+            //        }
+            //    }
+            //}
+            //maxNumSM = Math.Max(maxNumSM, numSeaMonsters);
+
+            //numSeaMonsters = 0;
+            //completeImage = Flip(completeImage, "x");
+            //for (int j = 0; j < completeImage.Count; j++)
+            //{
+            //    for (int i = 0; i < completeImage[0].Count; i++)
+            //    {
+            //        if (completeImage[i][j] == '#')
+            //        {
+            //            if (i < completeImage[0].Count - 20 && j > 1 && j < completeImage.Count - 2 &&
+            //                completeImage[j + 1][i + 1] == '#' && completeImage[j + 1][i + 4] == '#' &&
+            //                completeImage[j][i + 5] == '#' && completeImage[j][i + 6] == '#' &&
+            //                completeImage[j + 1][i + 7] == '#' && completeImage[j + 1][i + 10] == '#' &&
+            //                completeImage[j][i + 11] == '#' && completeImage[j][i + 12] == '#' &&
+            //                completeImage[j + 1][i + 13] == '#' && completeImage[j + 1][i + 16] == '#' &&
+            //                completeImage[j][i + 17] == '#' && completeImage[j - 1][i + 18] == '#' &&
+            //                completeImage[j][i + 18] == '#' && completeImage[j][i + 19] == '#')
+            //            {
+            //                numSeaMonsters++;
+            //            }
+            //        }
+            //    }
+            //}
+            //maxNumSM = Math.Max(maxNumSM, numSeaMonsters);
+
+            //completeImage = Flip(completeImage, "y");
+
+            //Console.WriteLine();
+            //foreach (List<char> lc in completeImage)
+            //{
+            //    foreach (char c in lc)
+            //    {
+            //        Console.Write(c);
+            //    }
+            //    Console.WriteLine();
+            //}
+
+            //numSeaMonsters = 0;
+            //completeImage = Rotate(completeImage, 90);
+            //for (int j = 0; j < completeImage.Count; j++)
+            //{
+            //    for (int i = 0; i < completeImage[0].Count; i++)
+            //    {
+            //        if (completeImage[i][j] == '#')
+            //        {
+            //            if (i < completeImage[0].Count - 20 && j > 1 && j < completeImage.Count - 2 &&
+            //                completeImage[j + 1][i + 1] == '#' && completeImage[j + 1][i + 4] == '#' &&
+            //                completeImage[j][i + 5] == '#' && completeImage[j][i + 6] == '#' &&
+            //                completeImage[j + 1][i + 7] == '#' && completeImage[j + 1][i + 10] == '#' &&
+            //                completeImage[j][i + 11] == '#' && completeImage[j][i + 12] == '#' &&
+            //                completeImage[j + 1][i + 13] == '#' && completeImage[j + 1][i + 16] == '#' &&
+            //                completeImage[j][i + 17] == '#' && completeImage[j - 1][i + 18] == '#' &&
+            //                completeImage[j][i + 18] == '#' && completeImage[j][i + 19] == '#')
+            //            {
+            //                numSeaMonsters++;
+            //            }
+            //        }
+            //    }
+            //}
+            //maxNumSM = Math.Max(maxNumSM, numSeaMonsters);
+
+            //numSeaMonsters = 0;
+            //completeImage = Flip(completeImage, "x");
+            //for (int j = 0; j < completeImage.Count; j++)
+            //{
+            //    for (int i = 0; i < completeImage[0].Count; i++)
+            //    {
+            //        if (completeImage[i][j] == '#')
+            //        {
+            //            if (i < completeImage[0].Count - 20 && j > 1 && j < completeImage.Count - 2 &&
+            //                completeImage[j + 1][i + 1] == '#' && completeImage[j + 1][i + 4] == '#' &&
+            //                completeImage[j][i + 5] == '#' && completeImage[j][i + 6] == '#' &&
+            //                completeImage[j + 1][i + 7] == '#' && completeImage[j + 1][i + 10] == '#' &&
+            //                completeImage[j][i + 11] == '#' && completeImage[j][i + 12] == '#' &&
+            //                completeImage[j + 1][i + 13] == '#' && completeImage[j + 1][i + 16] == '#' &&
+            //                completeImage[j][i + 17] == '#' && completeImage[j - 1][i + 18] == '#' &&
+            //                completeImage[j][i + 18] == '#' && completeImage[j][i + 19] == '#')
+            //            {
+            //                numSeaMonsters++;
+            //            }
+            //        }
+            //    }
+            //}
+            //maxNumSM = Math.Max(maxNumSM, numSeaMonsters);
+
+            //numSeaMonsters = 0;
+            //completeImage = Flip(completeImage, "y");
+            //for (int j = 0; j < completeImage.Count; j++)
+            //{
+            //    for (int i = 0; i < completeImage[0].Count; i++)
+            //    {
+            //        if (completeImage[i][j] == '#')
+            //        {
+            //            if (i < completeImage[0].Count - 20 && j > 1 && j < completeImage.Count - 2 &&
+            //                completeImage[j + 1][i + 1] == '#' && completeImage[j + 1][i + 4] == '#' &&
+            //                completeImage[j][i + 5] == '#' && completeImage[j][i + 6] == '#' &&
+            //                completeImage[j + 1][i + 7] == '#' && completeImage[j + 1][i + 10] == '#' &&
+            //                completeImage[j][i + 11] == '#' && completeImage[j][i + 12] == '#' &&
+            //                completeImage[j + 1][i + 13] == '#' && completeImage[j + 1][i + 16] == '#' &&
+            //                completeImage[j][i + 17] == '#' && completeImage[j - 1][i + 18] == '#' &&
+            //                completeImage[j][i + 18] == '#' && completeImage[j][i + 19] == '#')
+            //            {
+            //                numSeaMonsters++;
+            //            }
+            //        }
+            //    }
+            //}
+            //maxNumSM = Math.Max(maxNumSM, numSeaMonsters);
+
+            //numSeaMonsters = 0;
+            //completeImage = Flip(completeImage, "x");
+            //for (int j = 0; j < completeImage.Count; j++)
+            //{
+            //    for (int i = 0; i < completeImage[0].Count; i++)
+            //    {
+            //        if (completeImage[i][j] == '#')
+            //        {
+            //            if (i < completeImage[0].Count - 20 && j > 1 && j < completeImage.Count - 2 &&
+            //                completeImage[j + 1][i + 1] == '#' && completeImage[j + 1][i + 4] == '#' &&
+            //                completeImage[j][i + 5] == '#' && completeImage[j][i + 6] == '#' &&
+            //                completeImage[j + 1][i + 7] == '#' && completeImage[j + 1][i + 10] == '#' &&
+            //                completeImage[j][i + 11] == '#' && completeImage[j][i + 12] == '#' &&
+            //                completeImage[j + 1][i + 13] == '#' && completeImage[j + 1][i + 16] == '#' &&
+            //                completeImage[j][i + 17] == '#' && completeImage[j - 1][i + 18] == '#' &&
+            //                completeImage[j][i + 18] == '#' && completeImage[j][i + 19] == '#')
+            //            {
+            //                numSeaMonsters++;
+            //            }
+            //        }
+            //    }
+            //}
+            //maxNumSM = Math.Max(maxNumSM, numSeaMonsters);
+
+            //numSeaMonsters = 0;
+            //completeImage = Flip(completeImage, "y");
+            //completeImage = Rotate(completeImage, 90);
+            //for (int j = 0; j < completeImage.Count; j++)
+            //{
+            //    for (int i = 0; i < completeImage[0].Count; i++)
+            //    {
+            //        if (completeImage[i][j] == '#')
+            //        {
+            //            if (i < completeImage[0].Count - 20 && j > 1 && j < completeImage.Count - 2 &&
+            //                completeImage[j + 1][i + 1] == '#' && completeImage[j + 1][i + 4] == '#' &&
+            //                completeImage[j][i + 5] == '#' && completeImage[j][i + 6] == '#' &&
+            //                completeImage[j + 1][i + 7] == '#' && completeImage[j + 1][i + 10] == '#' &&
+            //                completeImage[j][i + 11] == '#' && completeImage[j][i + 12] == '#' &&
+            //                completeImage[j + 1][i + 13] == '#' && completeImage[j + 1][i + 16] == '#' &&
+            //                completeImage[j][i + 17] == '#' && completeImage[j - 1][i + 18] == '#' &&
+            //                completeImage[j][i + 18] == '#' && completeImage[j][i + 19] == '#')
+            //            {
+            //                numSeaMonsters++;
+            //            }
+            //        }
+            //    }
+            //}
+            //maxNumSM = Math.Max(maxNumSM, numSeaMonsters);
+
+            //numSeaMonsters = 0;
+            //completeImage = Flip(completeImage, "x");
+            //for (int j = 0; j < completeImage.Count; j++)
+            //{
+            //    for (int i = 0; i < completeImage[0].Count; i++)
+            //    {
+            //        if (completeImage[i][j] == '#')
+            //        {
+            //            if (i < completeImage[0].Count - 20 && j > 1 && j < completeImage.Count - 2 &&
+            //                completeImage[j + 1][i + 1] == '#' && completeImage[j + 1][i + 4] == '#' &&
+            //                completeImage[j][i + 5] == '#' && completeImage[j][i + 6] == '#' &&
+            //                completeImage[j + 1][i + 7] == '#' && completeImage[j + 1][i + 10] == '#' &&
+            //                completeImage[j][i + 11] == '#' && completeImage[j][i + 12] == '#' &&
+            //                completeImage[j + 1][i + 13] == '#' && completeImage[j + 1][i + 16] == '#' &&
+            //                completeImage[j][i + 17] == '#' && completeImage[j - 1][i + 18] == '#' &&
+            //                completeImage[j][i + 18] == '#' && completeImage[j][i + 19] == '#')
+            //            {
+            //                numSeaMonsters++;
+            //            }
+            //        }
+            //    }
+            //}
+            //maxNumSM = Math.Max(maxNumSM, numSeaMonsters);
+
+            //numSeaMonsters = 0;
+            //completeImage = Flip(completeImage, "y");
+            //for (int j = 0; j < completeImage.Count; j++)
+            //{
+            //    for (int i = 0; i < completeImage[0].Count; i++)
+            //    {
+            //        if (completeImage[i][j] == '#')
+            //        {
+            //            if (i < completeImage[0].Count - 20 && j > 1 && j < completeImage.Count - 2 &&
+            //                completeImage[j + 1][i + 1] == '#' && completeImage[j + 1][i + 4] == '#' &&
+            //                completeImage[j][i + 5] == '#' && completeImage[j][i + 6] == '#' &&
+            //                completeImage[j + 1][i + 7] == '#' && completeImage[j + 1][i + 10] == '#' &&
+            //                completeImage[j][i + 11] == '#' && completeImage[j][i + 12] == '#' &&
+            //                completeImage[j + 1][i + 13] == '#' && completeImage[j + 1][i + 16] == '#' &&
+            //                completeImage[j][i + 17] == '#' && completeImage[j - 1][i + 18] == '#' &&
+            //                completeImage[j][i + 18] == '#' && completeImage[j][i + 19] == '#')
+            //            {
+            //                numSeaMonsters++;
+            //            }
+            //        }
+            //    }
+            //}
+            //maxNumSM = Math.Max(maxNumSM, numSeaMonsters);
+
+            //numSeaMonsters = 0;
+            //completeImage = Flip(completeImage, "x");
+            //for (int j = 0; j < completeImage.Count; j++)
+            //{
+            //    for (int i = 0; i < completeImage[0].Count; i++)
+            //    {
+            //        if (completeImage[i][j] == '#')
+            //        {
+            //            if (i < completeImage[0].Count - 20 && j > 1 && j < completeImage.Count - 2 &&
+            //                completeImage[j + 1][i + 1] == '#' && completeImage[j + 1][i + 4] == '#' &&
+            //                completeImage[j][i + 5] == '#' && completeImage[j][i + 6] == '#' &&
+            //                completeImage[j + 1][i + 7] == '#' && completeImage[j + 1][i + 10] == '#' &&
+            //                completeImage[j][i + 11] == '#' && completeImage[j][i + 12] == '#' &&
+            //                completeImage[j + 1][i + 13] == '#' && completeImage[j + 1][i + 16] == '#' &&
+            //                completeImage[j][i + 17] == '#' && completeImage[j - 1][i + 18] == '#' &&
+            //                completeImage[j][i + 18] == '#' && completeImage[j][i + 19] == '#')
+            //            {
+            //                numSeaMonsters++;
+            //            }
+            //        }
+            //    }
+            //}
+            //maxNumSM = Math.Max(maxNumSM, numSeaMonsters);
+
+            //numSeaMonsters = 0;
+            //completeImage = Flip(completeImage, "y");
+            //completeImage = Rotate(completeImage, 90);
+            //for (int j = 0; j < completeImage.Count; j++)
+            //{
+            //    for (int i = 0; i < completeImage[0].Count; i++)
+            //    {
+            //        if (completeImage[i][j] == '#')
+            //        {
+            //            if (i < completeImage[0].Count - 20 && j > 1 && j < completeImage.Count - 2 &&
+            //                completeImage[j + 1][i + 1] == '#' && completeImage[j + 1][i + 4] == '#' &&
+            //                completeImage[j][i + 5] == '#' && completeImage[j][i + 6] == '#' &&
+            //                completeImage[j + 1][i + 7] == '#' && completeImage[j + 1][i + 10] == '#' &&
+            //                completeImage[j][i + 11] == '#' && completeImage[j][i + 12] == '#' &&
+            //                completeImage[j + 1][i + 13] == '#' && completeImage[j + 1][i + 16] == '#' &&
+            //                completeImage[j][i + 17] == '#' && completeImage[j - 1][i + 18] == '#' &&
+            //                completeImage[j][i + 18] == '#' && completeImage[j][i + 19] == '#')
+            //            {
+            //                numSeaMonsters++;
+            //            }
+            //        }
+            //    }
+            //}
+            //maxNumSM = Math.Max(maxNumSM, numSeaMonsters);
+
+            //numSeaMonsters = 0;
+            //completeImage = Flip(completeImage, "x");
+            //for (int j = 0; j < completeImage.Count; j++)
+            //{
+            //    for (int i = 0; i < completeImage[0].Count; i++)
+            //    {
+            //        if (completeImage[i][j] == '#')
+            //        {
+            //            if (i < completeImage[0].Count - 20 && j > 1 && j < completeImage.Count - 2 &&
+            //                completeImage[j + 1][i + 1] == '#' && completeImage[j + 1][i + 4] == '#' &&
+            //                completeImage[j][i + 5] == '#' && completeImage[j][i + 6] == '#' &&
+            //                completeImage[j + 1][i + 7] == '#' && completeImage[j + 1][i + 10] == '#' &&
+            //                completeImage[j][i + 11] == '#' && completeImage[j][i + 12] == '#' &&
+            //                completeImage[j + 1][i + 13] == '#' && completeImage[j + 1][i + 16] == '#' &&
+            //                completeImage[j][i + 17] == '#' && completeImage[j - 1][i + 18] == '#' &&
+            //                completeImage[j][i + 18] == '#' && completeImage[j][i + 19] == '#')
+            //            {
+            //                numSeaMonsters++;
+            //            }
+            //        }
+            //    }
+            //}
+            //maxNumSM = Math.Max(maxNumSM, numSeaMonsters);
+
+            //numSeaMonsters = 0;
+            //completeImage = Flip(completeImage, "y");
+            //for (int j = 0; j < completeImage.Count; j++)
+            //{
+            //    for (int i = 0; i < completeImage[0].Count; i++)
+            //    {
+            //        if (completeImage[i][j] == '#')
+            //        {
+            //            if (i < completeImage[0].Count - 20 && j > 1 && j < completeImage.Count - 2 &&
+            //                completeImage[j + 1][i + 1] == '#' && completeImage[j + 1][i + 4] == '#' &&
+            //                completeImage[j][i + 5] == '#' && completeImage[j][i + 6] == '#' &&
+            //                completeImage[j + 1][i + 7] == '#' && completeImage[j + 1][i + 10] == '#' &&
+            //                completeImage[j][i + 11] == '#' && completeImage[j][i + 12] == '#' &&
+            //                completeImage[j + 1][i + 13] == '#' && completeImage[j + 1][i + 16] == '#' &&
+            //                completeImage[j][i + 17] == '#' && completeImage[j - 1][i + 18] == '#' &&
+            //                completeImage[j][i + 18] == '#' && completeImage[j][i + 19] == '#')
+            //            {
+            //                numSeaMonsters++;
+            //            }
+            //        }
+            //    }
+            //}
+            //maxNumSM = Math.Max(maxNumSM, numSeaMonsters);
+
+            //numSeaMonsters = 0;
+            //completeImage = Flip(completeImage, "x");
+            //for (int j = 0; j < completeImage.Count; j++)
+            //{
+            //    for (int i = 0; i < completeImage[0].Count; i++)
+            //    {
+            //        if (completeImage[i][j] == '#')
+            //        {
+            //            if (i < completeImage[0].Count - 20 && j > 1 && j < completeImage.Count - 2 &&
+            //                completeImage[j + 1][i + 1] == '#' && completeImage[j + 1][i + 4] == '#' &&
+            //                completeImage[j][i + 5] == '#' && completeImage[j][i + 6] == '#' &&
+            //                completeImage[j + 1][i + 7] == '#' && completeImage[j + 1][i + 10] == '#' &&
+            //                completeImage[j][i + 11] == '#' && completeImage[j][i + 12] == '#' &&
+            //                completeImage[j + 1][i + 13] == '#' && completeImage[j + 1][i + 16] == '#' &&
+            //                completeImage[j][i + 17] == '#' && completeImage[j - 1][i + 18] == '#' &&
+            //                completeImage[j][i + 18] == '#' && completeImage[j][i + 19] == '#')
+            //            {
+            //                numSeaMonsters++;
+            //            }
+            //        }
+            //    }
+            //}
+            //maxNumSM = Math.Max(maxNumSM, numSeaMonsters);
+            #endregion
+            // left to right, upside down
+            numSeaMonsters = 0;
             for (int j = 0; j < completeImage.Count; j++)
             {
-                for (int i = completeImage[0].Count; i >= 0; i--)
+                for (int i = 0; i < completeImage[0].Count; i++)
                 {
                     if (completeImage[i][j] == '#')
                     {
-                        if (i >= 20 && j > 1 && j < completeImage.Count - 2 &&
+                        if (i < completeImage[0].Count - 20 && j > 1 && j < completeImage.Count - 2 &&
+                            completeImage[j - 1][i + 1] == '#' && completeImage[j - 1][i + 4] == '#' &&
+                            completeImage[j][i + 5] == '#' && completeImage[j][i + 6] == '#' &&
+                            completeImage[j - 1][i + 7] == '#' && completeImage[j - 1][i + 10] == '#' &&
+                            completeImage[j][i + 11] == '#' && completeImage[j][i + 12] == '#' &&
+                            completeImage[j - 1][i + 13] == '#' && completeImage[j - 1][i + 16] == '#' &&
+                            completeImage[j][i + 17] == '#' && completeImage[j + 1][i + 18] == '#' &&
+                            completeImage[j][i + 18] == '#' && completeImage[j][i + 19] == '#')
+                        {
+                            numSeaMonsters++;
+                        }
+                    }
+                }
+            }
+            maxNumSM = Math.Max(maxNumSM, numSeaMonsters);
+
+            // right to left
+            numSeaMonsters = 0;
+            for (int j = 0; j < completeImage.Count; j++)
+            {
+                for (int i = 0; i < completeImage[0].Count; i++)
+                {
+                    if (completeImage[i][j] == '#')
+                    {
+                        if (i > 18 && j > 1 && j < completeImage.Count - 2 &&
                             completeImage[j + 1][i - 1] == '#' && completeImage[j + 1][i - 4] == '#' &&
                             completeImage[j][i - 5] == '#' && completeImage[j][i - 6] == '#' &&
                             completeImage[j + 1][i - 7] == '#' && completeImage[j + 1][i - 10] == '#' &&
@@ -705,15 +1119,15 @@ namespace Day20
             }
             maxNumSM = Math.Max(maxNumSM, numSeaMonsters);
 
-            numSeaMonsters = 0; // flip x, y
-
-            for (int j = completeImage.Count; j >= 0; j--)
+            // right to left, upside down
+            numSeaMonsters = 0;
+            for (int j = 0; j < completeImage.Count; j++)
             {
-                for (int i = completeImage[0].Count - 1; i >= 0; i--)
+                for (int i = 0; i < completeImage[0].Count; i++)
                 {
                     if (completeImage[i][j] == '#')
                     {
-                        if (i >= 20 && j > 1 && j < completeImage.Count - 2 &&
+                        if (i > 18 && j > 1 && j < completeImage.Count - 2 &&
                             completeImage[j - 1][i - 1] == '#' && completeImage[j - 1][i - 4] == '#' &&
                             completeImage[j][i - 5] == '#' && completeImage[j][i - 6] == '#' &&
                             completeImage[j - 1][i - 7] == '#' && completeImage[j - 1][i - 10] == '#' &&
@@ -729,49 +1143,22 @@ namespace Day20
             }
             maxNumSM = Math.Max(maxNumSM, numSeaMonsters);
 
-            numSeaMonsters = 0; // flip y
-            completeImage = Flip(completeImage, "x");
-
-            for (int j = completeImage.Count - 1; j >= 0; j--)
-            {
-                for (int i = 0; i < completeImage[0].Count; i++)
-                {
-                    if (completeImage[i][j] == '#')
-                    {
-                        if (i < completeImage[0].Count - 20 && j > 1 && j < completeImage.Count - 2 &&
-                            completeImage[j - 1][i + 1] == '#' && completeImage[j - 1][i + 4] == '#' &&
-                            completeImage[j][i + 5] == '#' && completeImage[j][i + 6] == '#' &&
-                            completeImage[j - 1][i + 7] == '#' && completeImage[j + 1][i + 10] == '#' &&
-                            completeImage[j][i + 11] == '#' && completeImage[j][i + 12] == '#' &&
-                            completeImage[j - 1][i + 13] == '#' && completeImage[j - 1][i + 16] == '#' &&
-                            completeImage[j][i + 17] == '#' && completeImage[j - 1][i + 18] == '#' &&
-                            completeImage[j][i + 18] == '#' && completeImage[j][i + 19] == '#')
-                        {
-                            numSeaMonsters++;
-                        }
-                    }
-                }
-            }
-            maxNumSM = Math.Max(maxNumSM, numSeaMonsters);
-
-            numSeaMonsters = 0; // rotate 90
-            completeImage = Flip(completeImage, "y");
-            completeImage = Rotate(completeImage, 90);
-
-            for (int j = completeImage[0].Count - 1; j >= 0; j++)
+            // top to bottom
+            numSeaMonsters = 0;
+            for (int j = 0; j < completeImage[0].Count; j++)
             {
                 for (int i = 0; i < completeImage.Count; i++)
                 {
                     if (completeImage[i][j] == '#')
                     {
-                        if (j < completeImage[0].Count - 20 && i > 1 && i < completeImage.Count - 2 &&
-                            completeImage[i + 1][j - 1] == '#' && completeImage[i + 1][j - 4] == '#' &&
-                            completeImage[i][j - 5] == '#' && completeImage[i][j - 6] == '#' &&
-                            completeImage[i + 1][j - 7] == '#' && completeImage[i + 1][j - 10] == '#' &&
-                            completeImage[i][j - 11] == '#' && completeImage[i][j - 12] == '#' &&
-                            completeImage[i + 1][j - 13] == '#' && completeImage[i + 1][j - 16] == '#' &&
-                            completeImage[i][j - 17] == '#' && completeImage[i - 1][j - 18] == '#' &&
-                            completeImage[i][j - 18] == '#' && completeImage[i][j - 19] == '#')
+                        if (i < completeImage.Count - 20 && j > 1 && j < completeImage[0].Count - 2 &&
+                            completeImage[i + 1][j + 1] == '#' && completeImage[i + 4][j + 1] == '#' &&
+                            completeImage[i + 5][j] == '#' && completeImage[i + 6][j] == '#' &&
+                            completeImage[i + 7][j + 1] == '#' && completeImage[i + 10][j + 1] == '#' &&
+                            completeImage[i + 11][j] == '#' && completeImage[i + 12][j] == '#' &&
+                            completeImage[i + 13][j + 1] == '#' && completeImage[i + 16][j + 1] == '#' &&
+                            completeImage[i + 17][j] == '#' && completeImage[i + 18][j - 1] == '#' &&
+                            completeImage[i + 18][j] == '#' && completeImage[i + 19][j] == '#')
                         {
                             numSeaMonsters++;
                         }
@@ -780,48 +1167,22 @@ namespace Day20
             }
             maxNumSM = Math.Max(maxNumSM, numSeaMonsters);
 
-            numSeaMonsters = 0; // rotate 90, flip x
-            completeImage = Flip(completeImage, "x");
-
-            for (int j = completeImage[0].Count - 1; j >= 0; j++)
-            {
-                for (int i = completeImage.Count - 1; i >= 0 ; i++)
-                {
-                    if (completeImage[i][j] == '#')
-                    {
-                        if (j < completeImage[0].Count - 20 && i > 1 && i < completeImage.Count - 2 &&
-                            completeImage[i - 1][j - 1] == '#' && completeImage[i - 1][j - 4] == '#' &&
-                            completeImage[i][j - 5] == '#' && completeImage[i][j - 6] == '#' &&
-                            completeImage[i - 1][j - 7] == '#' && completeImage[i - 1][j - 10] == '#' &&
-                            completeImage[i][j - 11] == '#' && completeImage[i][j - 12] == '#' &&
-                            completeImage[i - 1][j - 13] == '#' && completeImage[i - 1][j - 16] == '#' &&
-                            completeImage[i][j - 17] == '#' && completeImage[i + 1][j - 18] == '#' &&
-                            completeImage[i][j - 18] == '#' && completeImage[i][j - 19] == '#')
-                        {
-                            numSeaMonsters++;
-                        }
-                    }
-                }
-            }
-            maxNumSM = Math.Max(maxNumSM, numSeaMonsters);
-
-            numSeaMonsters = 0; // rotate 90, flip x, y
-            completeImage = Flip(completeImage, "y");
-
+            // top to bottom, upside down
+            numSeaMonsters = 0;
             for (int j = 0; j < completeImage[0].Count; j++)
             {
-                for (int i = completeImage.Count - 1; i >= 0; i++)
+                for (int i = 0; i < completeImage.Count; i++)
                 {
                     if (completeImage[i][j] == '#')
                     {
-                        if (j < completeImage[0].Count - 20 && i > 1 && i < completeImage.Count - 2 &&
-                            completeImage[i - 1][j + 1] == '#' && completeImage[i - 1][j + 4] == '#' &&
-                            completeImage[i][j + 5] == '#' && completeImage[i][j + 6] == '#' &&
-                            completeImage[i - 1][j + 7] == '#' && completeImage[i - 1][j + 10] == '#' &&
-                            completeImage[i][j + 11] == '#' && completeImage[i][j + 12] == '#' &&
-                            completeImage[i - 1][j + 13] == '#' && completeImage[i - 1][j + 16] == '#' &&
-                            completeImage[i][j + 17] == '#' && completeImage[i + 1][j + 18] == '#' &&
-                            completeImage[i][j + 18] == '#' && completeImage[i][j + 19] == '#')
+                        if (i < completeImage.Count - 20 && j > 1 && j < completeImage[0].Count - 2 &&
+                            completeImage[i + 1][j - 1] == '#' && completeImage[i + 4][j - 1] == '#' &&
+                            completeImage[i + 5][j] == '#' && completeImage[i + 6][j] == '#' &&
+                            completeImage[i + 7][j - 1] == '#' && completeImage[i + 10][j - 1] == '#' &&
+                            completeImage[i + 11][j] == '#' && completeImage[i + 12][j] == '#' &&
+                            completeImage[i + 13][j - 1] == '#' && completeImage[i + 16][j - 1] == '#' &&
+                            completeImage[i + 17][j] == '#' && completeImage[i + 18][j + 1] == '#' &&
+                            completeImage[i + 18][j] == '#' && completeImage[i + 19][j] == '#')
                         {
                             numSeaMonsters++;
                         }
@@ -830,23 +1191,22 @@ namespace Day20
             }
             maxNumSM = Math.Max(maxNumSM, numSeaMonsters);
 
-            numSeaMonsters = 0; // rotate 90, flip y
-            completeImage = Flip(completeImage, "x");
-            //stopped here
-            for (int j = 0; j < completeImage.Count; j++)
+            // bottom to top
+            numSeaMonsters = 0;
+            for (int j = 0; j < completeImage[0].Count; j++)
             {
-                for (int i = 0; i < completeImage[0].Count; i++)
+                for (int i = 0; i < completeImage.Count; i++)
                 {
                     if (completeImage[i][j] == '#')
                     {
-                        if (j < completeImage[0].Count - 20 && i > 1 && i < completeImage.Count - 2 &&
-                            completeImage[i - 1][j - 1] == '#' && completeImage[i - 1][j - 4] == '#' &&
-                            completeImage[i][j - 5] == '#' && completeImage[i][j - 6] == '#' &&
-                            completeImage[i - 1][j - 7] == '#' && completeImage[i - 1][j - 10] == '#' &&
-                            completeImage[i][j - 11] == '#' && completeImage[i][j - 12] == '#' &&
-                            completeImage[i - 1][j - 13] == '#' && completeImage[i - 1][j - 16] == '#' &&
-                            completeImage[i][j - 17] == '#' && completeImage[i + 1][j - 18] == '#' &&
-                            completeImage[i][j - 18] == '#' && completeImage[i][j - 19] == '#')
+                        if (i > 18 && j > 1 && j < completeImage[0].Count - 2 &&
+                            completeImage[i - 1][j + 1] == '#' && completeImage[i - 4][j + 1] == '#' &&
+                            completeImage[i - 5][j] == '#' && completeImage[i - 6][j] == '#' &&
+                            completeImage[i - 7][j + 1] == '#' && completeImage[i - 10][j + 1] == '#' &&
+                            completeImage[i - 11][j] == '#' && completeImage[i - 12][j] == '#' &&
+                            completeImage[i - 13][j + 1] == '#' && completeImage[i - 16][j + 1] == '#' &&
+                            completeImage[i - 17][j] == '#' && completeImage[i - 18][j - 1] == '#' &&
+                            completeImage[i - 18][j] == '#' && completeImage[i - 19][j] == '#')
                         {
                             numSeaMonsters++;
                         }
@@ -855,31 +1215,22 @@ namespace Day20
             }
             maxNumSM = Math.Max(maxNumSM, numSeaMonsters);
 
-            numSeaMonsters = 0; // rotate 180
-            completeImage = Flip(completeImage, "y");
-            completeImage = Rotate(completeImage, 90);
-
-            for (int j = 0; j < completeImage.Count; j++)
+            // bottom to top, upside down
+            numSeaMonsters = 0;
+            for (int j = 0; j < completeImage[0].Count; j++)
             {
-                for (int i = 0; i < completeImage[0].Count; i++)
+                for (int i = 0; i < completeImage.Count; i++)
                 {
                     if (completeImage[i][j] == '#')
                     {
-                        if (i < completeImage[0].Count - 20 && j > 1 && j < completeImage.Count - 2 &&
-
-                         completeImage[j + 1][i + 1] == '#' && completeImage[j + 1][i + 4] == '#' &&
-
-                         completeImage[j][i + 5] == '#' && completeImage[j][i + 6] == '#' &&
-
-                         completeImage[j + 1][i + 7] == '#' && completeImage[j + 1][i + 10] == '#' &&
-
-                         completeImage[j][i + 11] == '#' && completeImage[j][i + 12] == '#' &&
-
-                         completeImage[j + 1][i + 13] == '#' && completeImage[j + 1][i + 16] == '#' &&
-
-                         completeImage[j][i + 17] == '#' && completeImage[j - 1][i + 18] == '#' &&
-
-                         completeImage[j][i + 18] == '#' && completeImage[j][i + 19] == '#')
+                        if (i > 18 && j > 1 && j < completeImage[0].Count - 2 &&
+                            completeImage[i - 1][j - 1] == '#' && completeImage[i - 4][j - 1] == '#' &&
+                            completeImage[i - 5][j] == '#' && completeImage[i - 6][j] == '#' &&
+                            completeImage[i - 7][j - 1] == '#' && completeImage[i - 10][j - 1] == '#' &&
+                            completeImage[i - 11][j] == '#' && completeImage[i - 12][j] == '#' &&
+                            completeImage[i - 13][j - 1] == '#' && completeImage[i - 16][j - 1] == '#' &&
+                            completeImage[i - 17][j] == '#' && completeImage[i - 18][j + 1] == '#' &&
+                            completeImage[i - 18][j] == '#' && completeImage[i - 19][j] == '#')
                         {
                             numSeaMonsters++;
                         }
@@ -887,232 +1238,6 @@ namespace Day20
                 }
             }
             maxNumSM = Math.Max(maxNumSM, numSeaMonsters);
-
-            numSeaMonsters = 0; // rotate 180, flip x
-            completeImage = Rotate(completeImage, 90);
-            completeImage = Flip(completeImage, "x");
-
-            for (int j = 0; j < completeImage.Count; j++)
-            {
-                for (int i = 0; i < completeImage[0].Count; i++)
-                {
-                    if (completeImage[i][j] == '#')
-                    {
-                        if (i < completeImage[0].Count - 20 && j > 1 && j < completeImage.Count - 2 &&
-
-                         completeImage[j + 1][i + 1] == '#' && completeImage[j + 1][i + 4] == '#' &&
-
-                         completeImage[j][i + 5] == '#' && completeImage[j][i + 6] == '#' &&
-
-                         completeImage[j + 1][i + 7] == '#' && completeImage[j + 1][i + 10] == '#' &&
-
-                         completeImage[j][i + 11] == '#' && completeImage[j][i + 12] == '#' &&
-
-                         completeImage[j + 1][i + 13] == '#' && completeImage[j + 1][i + 16] == '#' &&
-
-                         completeImage[j][i + 17] == '#' && completeImage[j - 1][i + 18] == '#' &&
-
-                         completeImage[j][i + 18] == '#' && completeImage[j][i + 19] == '#')
-                        {
-                            numSeaMonsters++;
-                        }
-                    }
-                }
-            }
-            maxNumSM = Math.Max(maxNumSM, numSeaMonsters);
-
-            numSeaMonsters = 0; // rotate 180, flip x, y
-            completeImage = Flip(completeImage, "y");
-
-            for (int j = 0; j < completeImage.Count; j++)
-            {
-                for (int i = 0; i < completeImage[0].Count; i++)
-                {
-                    if (completeImage[i][j] == '#')
-                    {
-                        if (i < completeImage[0].Count - 20 && j > 1 && j < completeImage.Count - 2 &&
-
-                         completeImage[j + 1][i + 1] == '#' && completeImage[j + 1][i + 4] == '#' &&
-
-                         completeImage[j][i + 5] == '#' && completeImage[j][i + 6] == '#' &&
-
-                         completeImage[j + 1][i + 7] == '#' && completeImage[j + 1][i + 10] == '#' &&
-
-                         completeImage[j][i + 11] == '#' && completeImage[j][i + 12] == '#' &&
-
-                         completeImage[j + 1][i + 13] == '#' && completeImage[j + 1][i + 16] == '#' &&
-
-                         completeImage[j][i + 17] == '#' && completeImage[j - 1][i + 18] == '#' &&
-
-                         completeImage[j][i + 18] == '#' && completeImage[j][i + 19] == '#')
-                        {
-                            numSeaMonsters++;
-                        }
-                    }
-                }
-            }
-            maxNumSM = Math.Max(maxNumSM, numSeaMonsters);
-
-            numSeaMonsters = 0; // rotate 180, flip y
-            completeImage = Flip(completeImage, "x");
-
-            for (int j = 0; j < completeImage.Count; j++)
-            {
-                for (int i = 0; i < completeImage[0].Count; i++)
-                {
-                    if (completeImage[i][j] == '#')
-                    {
-                        if (i < completeImage[0].Count - 20 && j > 1 && j < completeImage.Count - 2 &&
-
-                         completeImage[j + 1][i + 1] == '#' && completeImage[j + 1][i + 4] == '#' &&
-
-                         completeImage[j][i + 5] == '#' && completeImage[j][i + 6] == '#' &&
-
-                         completeImage[j + 1][i + 7] == '#' && completeImage[j + 1][i + 10] == '#' &&
-
-                         completeImage[j][i + 11] == '#' && completeImage[j][i + 12] == '#' &&
-
-                         completeImage[j + 1][i + 13] == '#' && completeImage[j + 1][i + 16] == '#' &&
-
-                         completeImage[j][i + 17] == '#' && completeImage[j - 1][i + 18] == '#' &&
-
-                         completeImage[j][i + 18] == '#' && completeImage[j][i + 19] == '#')
-                        {
-                            numSeaMonsters++;
-                        }
-                    }
-                }
-            }
-            maxNumSM = Math.Max(maxNumSM, numSeaMonsters);
-
-            numSeaMonsters = 0; // rotate 270
-            completeImage = Flip(completeImage, "y");
-            completeImage = Rotate(completeImage, 90);
-
-            for (int j = 0; j < completeImage.Count; j++)
-            {
-                for (int i = 0; i < completeImage[0].Count; i++)
-                {
-                    if (completeImage[i][j] == '#')
-                    {
-                        if (i < completeImage[0].Count - 20 && j > 1 && j < completeImage.Count - 2 &&
-
-                         completeImage[j + 1][i + 1] == '#' && completeImage[j + 1][i + 4] == '#' &&
-
-                         completeImage[j][i + 5] == '#' && completeImage[j][i + 6] == '#' &&
-
-                         completeImage[j + 1][i + 7] == '#' && completeImage[j + 1][i + 10] == '#' &&
-
-                         completeImage[j][i + 11] == '#' && completeImage[j][i + 12] == '#' &&
-
-                         completeImage[j + 1][i + 13] == '#' && completeImage[j + 1][i + 16] == '#' &&
-
-                         completeImage[j][i + 17] == '#' && completeImage[j - 1][i + 18] == '#' &&
-
-                         completeImage[j][i + 18] == '#' && completeImage[j][i + 19] == '#')
-                        {
-                            numSeaMonsters++;
-                        }
-                    }
-                }
-            }
-            maxNumSM = Math.Max(maxNumSM, numSeaMonsters);
-
-            numSeaMonsters = 0; // roate 270, flip x
-            completeImage = Rotate(completeImage, 90);
-            completeImage = Flip(completeImage, "x");
-
-            for (int j = 0; j < completeImage.Count; j++)
-            {
-                for (int i = 0; i < completeImage[0].Count; i++)
-                {
-                    if (completeImage[i][j] == '#')
-                    {
-                        if (i < completeImage[0].Count - 20 && j > 1 && j < completeImage.Count - 2 &&
-
-                         completeImage[j + 1][i + 1] == '#' && completeImage[j + 1][i + 4] == '#' &&
-
-                         completeImage[j][i + 5] == '#' && completeImage[j][i + 6] == '#' &&
-
-                         completeImage[j + 1][i + 7] == '#' && completeImage[j + 1][i + 10] == '#' &&
-
-                         completeImage[j][i + 11] == '#' && completeImage[j][i + 12] == '#' &&
-
-                         completeImage[j + 1][i + 13] == '#' && completeImage[j + 1][i + 16] == '#' &&
-
-                         completeImage[j][i + 17] == '#' && completeImage[j - 1][i + 18] == '#' &&
-
-                         completeImage[j][i + 18] == '#' && completeImage[j][i + 19] == '#')
-                        {
-                            numSeaMonsters++;
-                        }
-                    }
-                }
-            }
-            maxNumSM = Math.Max(maxNumSM, numSeaMonsters);
-
-            numSeaMonsters = 0; // rotate 270, flip x,y
-            completeImage = Flip(completeImage, "y");
-
-            for (int j = 0; j < completeImage.Count; j++)
-            {
-                for (int i = 0; i < completeImage[0].Count; i++)
-                {
-                    if (completeImage[i][j] == '#')
-                    {
-                        if (i < completeImage[0].Count - 20 && j > 1 && j < completeImage.Count - 2 &&
-
-                         completeImage[j + 1][i + 1] == '#' && completeImage[j + 1][i + 4] == '#' &&
-
-                         completeImage[j][i + 5] == '#' && completeImage[j][i + 6] == '#' &&
-
-                         completeImage[j + 1][i + 7] == '#' && completeImage[j + 1][i + 10] == '#' &&
-
-                         completeImage[j][i + 11] == '#' && completeImage[j][i + 12] == '#' &&
-
-                         completeImage[j + 1][i + 13] == '#' && completeImage[j + 1][i + 16] == '#' &&
-
-                         completeImage[j][i + 17] == '#' && completeImage[j - 1][i + 18] == '#' &&
-
-                         completeImage[j][i + 18] == '#' && completeImage[j][i + 19] == '#')
-                        {
-                            numSeaMonsters++;
-                        }
-                    }
-                }
-            }
-            maxNumSM = Math.Max(maxNumSM, numSeaMonsters);
-
-            numSeaMonsters = 0; // rotate 270, flip y
-            completeImage = Flip(completeImage, "x");
-
-            for (int j = 0; j < completeImage.Count; j++)
-            {
-                for (int i = 0; i < completeImage[0].Count; i++)
-                {
-                    if (completeImage[i][j] == '#')
-                    {
-                        if (i < completeImage[0].Count - 20 && j > 1 && j < completeImage.Count - 2 &&
-
-                         completeImage[j + 1][i + 1] == '#' && completeImage[j + 1][i + 4] == '#' &&
-
-                         completeImage[j][i + 5] == '#' && completeImage[j][i + 6] == '#' &&
-
-                         completeImage[j + 1][i + 7] == '#' && completeImage[j + 1][i + 10] == '#' &&
-
-                         completeImage[j][i + 11] == '#' && completeImage[j][i + 12] == '#' &&
-
-                         completeImage[j + 1][i + 13] == '#' && completeImage[j + 1][i + 16] == '#' &&
-
-                         completeImage[j][i + 17] == '#' && completeImage[j - 1][i + 18] == '#' &&
-
-                         completeImage[j][i + 18] == '#' && completeImage[j][i + 19] == '#')
-                        {
-                            numSeaMonsters++;
-                        }
-                    }
-                }
-            }
 
             Console.WriteLine(maxNumSM);
             Console.WriteLine(numHash);
@@ -1199,34 +1324,42 @@ namespace Day20
         public static List<List<char>> Rotate(List<List<char>> map, int angle)
         {
             var result = new List<List<char>>();
-            for (int i = 0; i < map[0].Count; i++)
-            {
-                result.Add(new List<char>());
-            }
 
 
             if (angle == 90)
             {
                 for (int i = 0; i < map[0].Count; i++)
                 {
+                    result.Add(new List<char>());
+                }
+                for (int i = map[0].Count - 1; i >= 0; i--)
+                {
                     for (int j = 0; j < map.Count; j++)
                     {
-                        result[i].Add(map[j][i]);
+                        result[map[0].Count - 1 - i].Add(map[j][i]);
                     }
                 }
             }
             else if (angle == 180)
             {
-                for (int i = map.Count - 1; i >= 0; i--)
+                for (int i = 0; i < map.Count; i++)
                 {
-                    for (int j = map[0].Count - 1; j >= 0; j--)
+                    result.Add(new List<char>());
+                }
+                for (int j = map.Count - 1; j >= 0; j--)
+                {
+                    for (int i = map[0].Count - 1; i >= 0; i--)
                     {
-                        result[i].Add(map[i][j]);
+                        result[map.Count - 1 - j].Add(map[j][i]);
                     }
                 }
             }
             else if (angle == 270)
             {
+                for (int i = 0; i < map[0].Count; i++)
+                {
+                    result.Add(new List<char>());
+                }
                 for (int i = 0; i < map[0].Count; i++)
                 {
                     for (int j = map.Count - 1; j >= 0; j--)
@@ -1244,7 +1377,7 @@ namespace Day20
             var result = new List<char>();
             foreach (char c in s)
             {
-                result.Add(c);
+                result.Insert(0, c);
             }
 
             return result;
